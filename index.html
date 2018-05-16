@@ -37,7 +37,7 @@
 					<ul class="list-group">
 						<li class="list-group-item">
 							<a href="javascript:;">
-								<img src="{{imgsrc}}" style="height:300px;"/>
+								<img src="img/1.jpg" style="height:300px;"/>
 								<span style="position: absolute;left: 10px;top:10px;color: #000;">{{content}}</span>
 							</a>
 						</li>
@@ -83,8 +83,11 @@
 					$("#noExtension").show();
 				}
 
-				var dappAddress = "n21VSF2wVy3QPxTRxAChvDw6AtdBbAY7JrD";
+				var dappAddress = "n1mE4BGHKKaoLKEskqkL1psMXcjUWFPPAR9";
 
+                setInterval(function() {
+                    getAll();
+                }, 15000);
                 getAll();
                 
                 function getAll() {
@@ -101,6 +104,7 @@
                     if(!resp.result) return;
                     var result = eval(JSON.parse(resp.result));
                     if(result !== 'null') {
+                        $('#waterfall-template').empty();
                         var imgs = ["123_01.jpg","123_03.jpg","123_04.jpg","123_06.jpg","123_08.jpg"
                             ,"123_09.jpg","123_10.jpg","123_12.jpg"];
 						for(var i=0; i<result.length; i++){
@@ -110,7 +114,7 @@
                             html = html.replace("{{id}}",result[i].id);
                             html = html.replace("{{content}}",result[i].content);
                             html = html.replace("{{author}}",result[i].author);
-                            html = html.replace("{{imgsrc}}","img/" + imgs[random]);
+                            html = html.replace("img/1.jpg","img/" + imgs[random]);
                             html = html.replace("height:300px;","height:"+height+"px;");
                             if(result[i].good == "1"){
                                 html = html.replace("img/good1.png","img/good2.png");
@@ -126,16 +130,18 @@
                 }
 
                 function getContentHeight(content) {
-					if(content.length < 100){
-					    return 100;
+                    if(content.length < 60){
+                        return 100;
+					}else if(content.length >= 60 && content.length < 100){
+					    return 150;
 					}else if(content.length >= 100 && content.length < 200){
-                        return 200;
+                        return 250;
 					}else if(content.length >= 200 && content.length < 300){
-                        return 300;
+                        return 350;
 					}else if(content.length >= 300 && content.length < 400){
-                        return 400;
+                        return 450;
                     }else{
-                        return 500;
+                        return 550;
 					}
                 }
 
@@ -160,7 +166,6 @@
                             nebPay.call(to, value, callFunction, JSON.stringify(callArgs), { //使用nebpay的call接口去调用合约,
                                 listener: cbPush1
                             });
-                            getAll();
                             layer.close(index);
                         },btn2: function(index, layero){
                             layer.close(index);
@@ -188,7 +193,7 @@
                 }
 
                 function cbPush2(resp) {
-                    getAll();
+
                 }
 
 				function getDateStr(date) {

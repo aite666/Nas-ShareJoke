@@ -118,8 +118,8 @@ ShareJokeContract.prototype = {
         var flag = 1;
         for(var i=0; i<goodId; i++){
             var subGood = this.goodMap.get(i);
-            if(subGood.get(i).user == from &&
-                subGood.get(i).jokeId == jokeId){
+            if(subGood.user == from &&
+                subGood.jokeId == jokeId){
                 flag = 2;
                 break;
             }
