@@ -11,7 +11,7 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 	</head>
 
-		<body class="mdui-theme-primary-deep-purple mdui-theme-accent-purple">
+		<body class="mdui-theme-primary-deep-purple mdui-theme-accent-purple" id="body">
 			<div class="mdui-toolbar mdui-color-theme mdui-appbar-fixed" style="z-index: 1000;">
 				<span class="mdui-typo-title" style="color: #FFF;">生活中的小段子</span>
 				<div class="mdui-toolbar-spacer"></div>
@@ -26,7 +26,8 @@
 					</svg>
 				</a>
 			</div>
-			<div class="mdui-container">
+
+			<div class="mdui-container" style="min-height: 100%;margin-bottom: -50px;">
 				<div class="waterfall" style="margin-top: 60px;">
 				</div>
 
@@ -51,14 +52,18 @@
 					</ul>
 				</div>
 
-				<button class="mdui-fab mdui-fab-fixed mdui-color-theme-accent" id="addButton">
+				<button class="mdui-fab mdui-fab-fixed mdui-color-theme-accent" mdui-tooltip="{content: '点击上传生活中的小段子', position: 'top'}" id="addButton">
 					<i class="mdui-icon material-icons">add</i>
 				</button>
+				<div style="height: 50px;"></div>
+			</div>
+
+			<div style="width: 100%;height: 50px;">
 				<div id="noExtension" style="text-align: center;display: none;">
 					提示: 请安装
 					<a target="_blank" href="https://github.com/ChengOrangeJu/WebExtensionWallet">WebExtensionWallet</a> 来使用生活中的小段子
 				</div>
-				<div class="link">
+				<div style="margin: 5px 0;text-align: center;">
 					使用<a href="https://nebulas.io/">星云链</a>驱动，<a href="https://incentive.nebulas.io/cn/signup.html?invite=pvkCA">提交DAPP获得100NAS</a>
 				</div>
 			</div>
@@ -73,6 +78,9 @@
 			<script src="js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
 			<script src="js/bootstrap-waterfall.js"></script>
 			<script>
+				$("#body").css("height",(document.documentElement.clientHeight-60)+"px");
+
+
 				var NebPay = require("nebpay"); //https://github.com/nebulasio/nebPay
 				var nebPay = new NebPay();
 
@@ -85,9 +93,6 @@
 
 				var dappAddress = "n1mE4BGHKKaoLKEskqkL1psMXcjUWFPPAR9";
 
-                setInterval(function() {
-                    getAll();
-                }, 15000);
                 getAll();
                 
                 function getAll() {
@@ -178,6 +183,7 @@
 
                 function cbPush1(resp) {
                     $("#content").val('');
+                    getAll();
                 }
 
                 //点赞
@@ -193,7 +199,7 @@
                 }
 
                 function cbPush2(resp) {
-
+                    getAll();
                 }
 
 				function getDateStr(date) {

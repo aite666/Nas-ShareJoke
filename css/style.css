@@ -3,6 +3,17 @@
 	padding: 0px;
 }
 
+html{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+body{
+	margin: 0;
+	padding: 0;
+}
+
 waterfall{padding: 1em 0;}
 .waterfall .list-group {
 	margin-right: 14px; }
