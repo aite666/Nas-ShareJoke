@@ -14,6 +14,7 @@
 		<body class="mdui-theme-primary-deep-purple mdui-theme-accent-purple" id="body">
 			<div class="mdui-toolbar mdui-color-theme mdui-appbar-fixed" style="z-index: 1000;">
 				<span class="mdui-typo-title" style="color: #FFF;">生活中的小段子</span>
+				<span style="padding-top: 6px;margin-left: 0;">奇趣汇聚各路生活段子，搞笑、脑洞、情感、神评等类型，今天，您笑了吗？</span>
 				<div class="mdui-toolbar-spacer"></div>
 				<a href="https://github.com/nebulasio" target="_blank" class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-tooltip="{content: '查看 Github'}">
 					<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 36 36" enable-background="new 0 0 36 36" xml:space="preserve" class="mdui-icon" style="width: 24px;height:24px;">
@@ -27,7 +28,7 @@
 				</a>
 			</div>
 
-			<div class="mdui-container" style="min-height: 100%;margin-bottom: -50px;">
+			<div class="mdui-container" style="min-height: 100%;margin-bottom: -110px;">
 				<div class="waterfall" style="margin-top: 60px;">
 				</div>
 
@@ -46,26 +47,32 @@
 							<div class="mdui-col-xs-10">
 								<span style="word-wrap : break-word;margin: 0;">{{author}}</span>
 							</div>
-							<div class="pull-right mdui-col-xs-2" onclick="good('{{id}}')"
+							<div class="pull-right mdui-col-xs-2" onclick="good('{{good}}','{{id}}')"
 								 style="cursor:pointer;margin-top:10px;background: url('img/good1.png');background-size: 100% 100%;height: 20px;width: 22px;"></div>
 						</li>
 					</ul>
 				</div>
 
-				<button class="mdui-fab mdui-fab-fixed mdui-color-theme-accent" mdui-tooltip="{content: '点击上传生活中的小段子', position: 'top'}" id="addButton">
-					<i class="mdui-icon material-icons">add</i>
-				</button>
-				<div style="height: 50px;"></div>
+				<div style="height: 110px;"></div>
 			</div>
 
-			<div style="width: 100%;height: 50px;">
-				<div id="noExtension" style="text-align: center;display: none;">
+			<div style="width: 100%;height: 110px;position:relative">
+				<embed src="img/NebulasLogo.svg" type="image/svg+xml" style="width: 110px;height: 110px;position: absolute;left: 25%;"/>
+				<div style="text-align: center;">
+					<button class="mdui-fab mdui-color-theme-accent" mdui-tooltip="{content: '点击上传生活中的小段子', position: 'top'}" id="addButton">
+						<i class="mdui-icon material-icons">add</i>
+					</button>
+				</div>
+				<div id="noExtension" style="display: none;text-align: center;">
 					提示: 请安装
 					<a target="_blank" href="https://github.com/ChengOrangeJu/WebExtensionWallet">WebExtensionWallet</a> 来使用生活中的小段子
 				</div>
 				<div style="margin: 5px 0;text-align: center;">
 					使用<a href="https://nebulas.io/">星云链</a>驱动，<a href="https://incentive.nebulas.io/cn/signup.html?invite=pvkCA">提交DAPP获得100NAS</a>
 				</div>
+				<span style="width: 30%;height: 110px;position: absolute;right: 5%;bottom: 0;padding-top: 20px;">
+					本页面段子皆为用户发布，适用避风港原则。如有涉嫌侵权内容，请邮件联系abcd@jqq.com，告知段子所属钱包地址(左下角的地址)以及侵权证据。
+				</span>
 			</div>
 
 			<div id="myModal" class="hide">
@@ -119,6 +126,7 @@
                             html = html.replace("{{id}}",result[i].id);
                             html = html.replace("{{content}}",result[i].content);
                             html = html.replace("{{author}}",result[i].author);
+                            html = html.replace("{{good}}",result[i].good);
                             html = html.replace("img/1.jpg","img/" + imgs[random]);
                             html = html.replace("height:300px;","height:"+height+"px;");
                             if(result[i].good == "1"){
@@ -183,23 +191,32 @@
 
                 function cbPush1(resp) {
                     $("#content").val('');
-                    getAll();
+                    setTimeout(function() {
+                        getAll();
+                    }, 20000);
                 }
 
                 //点赞
-                function good(id) {
-                    var to = dappAddress;
-                    var value = "0";
-                    var callFunction = "good";
-                    var callArgs = [];
-                    callArgs.push(id);
-                    nebPay.call(to, value, callFunction, JSON.stringify(callArgs), { //使用nebpay的call接口去调用合约,
-                        listener: cbPush2
-                    });
+                function good(isGood,id) {
+                    if(isGood == '1'){
+                        layer.msg("点赞段子不用再次点赞!");
+					} else {
+                        var to = dappAddress;
+                        var value = "0";
+                        var callFunction = "good";
+                        var callArgs = [];
+                        callArgs.push(id);
+                        nebPay.call(to, value, callFunction, JSON.stringify(callArgs), { //使用nebpay的call接口去调用合约,
+                            listener: cbPush2
+                        });
+					}
+
                 }
 
                 function cbPush2(resp) {
-                    getAll();
+                    setTimeout(function() {
+                        getAll();
+                    }, 20000);
                 }
 
 				function getDateStr(date) {
